@@ -116,7 +116,19 @@ def SplitLinesRecursive(theta, rho, startIdx, endIdx, params):
     HINT: Call FindSplit() to find an index to split at.
     '''
     ########## Code starts here ##########
-
+    alpha, r = FitLine(theta[startIdx:endIdx], rho[startIdx:endIdx]
+    if (endIdx - startIdx) <= params['MIN_POINTS_PER_SEGMENT']:
+        return alpha, r, (startIdx, endIdx)
+        
+    s = FindSplit(theta[startIdx:endIdx], rho[startIdx:endIdx], alpha, r, params)
+    
+    if s < 0:
+        return alpha, r, (startIdx, endIdx)
+    
+    alpha1, r1, i1 = SplitLinesRecursive(theta, rho, startIdx, endIdx + s, params)
+    alpha2, r2, i2 = SplitLinesRecursive(theta, rho, startIdx + s, endIdx, params)
+    alpha = (alpha1, alpha2), r = (r1, r2), idx = (i1, i2)
+    
     ########## Code ends here ##########
     return alpha, r, idx
 
@@ -140,7 +152,9 @@ def FindSplit(theta, rho, alpha, r, params):
         splitIdx: idx at which to split line (return -1 if it cannot be split).
     '''
     ########## Code starts here ##########
-
+    
+    splitIdx = -1
+    
     ########## Code ends here ##########
     return splitIdx
 
@@ -157,7 +171,17 @@ def FitLine(theta, rho):
         r: 'r' of best fit for range data (1 number) (m).
     '''
     ########## Code starts here ##########
-
+    n = len(theta)
+    x, y = 0, 0
+    for i in range(n):
+        y += rho[i]**2 * np.sin(2*theta[i])
+        x += rho[i]**2 * np.cos(2*theta[i])
+        for j in range(n):
+            y -= (2 / n) * rho[i] * rho[j] * np.cos(theta[i]) * np.sin(theta[j])
+            x -= (1 / n) * rho[i] * rho[j] * np.cos(theta[i] + theta[j])
+    
+    alpha = 0.5 * np.arctan2(y, x) + np.pi / 2
+    r = np.sum(rho * np.cos(theta - alpha)) / n
     ########## Code ends here ##########
     return alpha, r
 
