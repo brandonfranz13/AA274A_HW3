@@ -14,7 +14,9 @@ def half_downscale(image):
         downscaled_image: A half-downscaled version of image.
     """
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    downscaled_image = image[2:2:, 2:2:, :]
+    
+    return downscaled_image
     ########## Code ends here ##########
 
 
