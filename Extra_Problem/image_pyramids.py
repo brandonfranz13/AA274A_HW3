@@ -14,7 +14,7 @@ def half_downscale(image):
         downscaled_image: A half-downscaled version of image.
     """
     ########## Code starts here ##########
-    downscaled_image = image[2:2:, 2:2:, :]
+    downscaled_image = image[1::2, 1::2, :]
     
     return downscaled_image
     ########## Code ends here ##########
