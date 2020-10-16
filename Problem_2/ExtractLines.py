@@ -116,7 +116,7 @@ def SplitLinesRecursive(theta, rho, startIdx, endIdx, params):
     HINT: Call FindSplit() to find an index to split at.
     '''
     ########## Code starts here ##########
-    alpha, r = FitLine(theta[startIdx:endIdx], rho[startIdx:endIdx]
+    alpha, r = FitLine(theta[startIdx:endIdx], rho[startIdx:endIdx])
     if (endIdx - startIdx) <= params['MIN_POINTS_PER_SEGMENT']:
         return alpha, r, (startIdx, endIdx)
         
