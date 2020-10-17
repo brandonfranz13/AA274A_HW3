@@ -92,7 +92,18 @@ class CameraCalibrator:
         HINT: np.stack and/or np.hstack may come in handy here.
         '''
         ########## Code starts here ##########
-
+        P_W = np.array([X, Y, [1]*len(X)])
+        P_tilde = np.arange((2*len(X), 9))
+        
+        for i in range(len(X)):                     #Construct P_tilde using world coordinates and measured camera coordinates
+            P_tilde[i] = np.array([[-P_W[:,i],   np.zeros(3),  u_meas[i]*P_W[:,i]],
+                                   [np.zeros(3), -P_W[:,i],    v_meas[i]*P_W[:,i]]])
+                          
+        P_tilde = np.stack(P_tilde)                 #Stack all that into a coherent matrix 2n x 9
+        _, _, V = np.linalg.svd(P_tilde)            #Solve SVD problem. We only care about V
+        V = V.T                                     #Untranspose V
+        H = V[-1,:]                                 #Grab smallest singular value
+        H = [V[0:2], V[3:5], V[6:8]]                #H is 3x3
         ########## Code ends here ##########
         return H
 
