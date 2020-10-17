@@ -28,6 +28,7 @@ def corr(F, I):
     ########## Code starts here ##########
     zeroPad(I)
     f = np.array(F).flatten()
+    t = []
     for i in range(I.shape[0]):
         for j in range(I.shape[1]):
             t[i+j] = np.array([[np.array(I[i:i+u, j:j+v, w]) for u in range(F.shape[0]) for v in range(F.shape[1])] for w in range(F.shape[2])]).flatten()
