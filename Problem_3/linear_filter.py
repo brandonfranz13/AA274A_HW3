@@ -4,6 +4,7 @@ import numpy as np
 import time
 import cv2
 import matplotlib.pyplot as plt
+import pdb
 
 
 def zeroPad(I):
@@ -26,6 +27,7 @@ def corr(F, I):
         G: An (m, n)-shaped ndarray containing the correlation of the filter with the image.
     """
     ########## Code starts here ##########
+    pdb.set_trace()
     zeroPad(I)
     f = np.array(F).flatten()
     t = []
