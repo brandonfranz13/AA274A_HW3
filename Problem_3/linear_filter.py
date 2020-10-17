@@ -6,6 +6,16 @@ import cv2
 import matplotlib.pyplot as plt
 
 
+def zeroPad(I):
+    """
+    Input
+        I: An (m, n, c)-shaped ndarray containing the m x n image (with c channels).
+
+    Returns
+        I_pad: An (m+1, n+1, c)-shaped ndarray containing the zero-padded or same-padded version of I
+    """
+    np.pad(I, ((0,), (1,), (1,)), 'constant')
+
 def corr(F, I):
     """
     Input
@@ -16,7 +26,13 @@ def corr(F, I):
         G: An (m, n)-shaped ndarray containing the correlation of the filter with the image.
     """
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    I = zeroPad(I)
+    f = np.array(F).flatten()
+    for i in range(I.shape[0]):
+        for j in range(I.shape[1]):
+            t[i+j] = np.array([[np.array(I[i:i+u, j:j+v, w]) for u in range(F.shape[0]) for v in range(F.shape[1])] for w in range(F.shape[2])]).flatten()
+    
+    return np.array([[f.T * t[i+j] for j in range(I.shape[1])] for i in range(I.shape[0])])
     ########## Code ends here ##########
 
 
