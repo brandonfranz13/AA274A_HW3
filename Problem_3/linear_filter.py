@@ -13,7 +13,7 @@ def zeroPad(I):
         I: An (m, n, c)-shaped ndarray containing the m x n image (with c channels).
 
     Returns
-        I_pad: An (m+1, n+1, c)-shaped ndarray containing the zero-padded or same-padded version of I
+        I_pad: An (m+2, n+2, c)-shaped ndarray containing the zero-padded or same-padded version of I
     """
     np.pad(I, ((0,), (1,), (1,)), 'constant')
 
