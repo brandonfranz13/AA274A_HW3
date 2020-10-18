@@ -180,10 +180,10 @@ def FitLine(theta, rho):
         y += rho[i]**2 * np.sin(2*theta[i])
         x += rho[i]**2 * np.cos(2*theta[i])
         for j in range(n):
-            y -= (2 / n) * rho[i] * rho[j] * np.cos(theta[i]) * np.sin(theta[j])
-            x -= (1 / n) * rho[i] * rho[j] * np.cos(theta[i] + theta[j])
+            y -= (2. / n) * rho[i] * rho[j] * np.cos(theta[i]) * np.sin(theta[j])
+            x -= (1. / n) * rho[i] * rho[j] * np.cos(theta[i] + theta[j])
     
-    alpha = 0.5 * np.arctan2(y, x) + np.pi / 2
+    alpha = 0.5 * np.arctan2(y, x) + np.pi / 2.
     r = np.sum(rho * np.cos(theta - alpha)) / n
     ########## Code ends here ##########
     return alpha, r
@@ -210,7 +210,10 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
           merge. If it can be split, do not merge.
     '''
     ########## Code starts here ##########
-
+    N_lines = len(pointIdx[:,0])
+    for i in range(N_lines):
+        alphaOut, rOut = FitLine(theta[startIdx:endIdx], rho[startIdx:endIdx])
+        
     ########## Code ends here ##########
     return alphaOut, rOut, pointIdxOut
 
