@@ -71,11 +71,12 @@ class CameraCalibrator:
         HINT: it does not matter where your frame it, as long as you are consistent!
         '''
         ########## Code starts here ##########
-        Xg = [i+self.d_square for i in range(self.n_corners_x)]
-        Yg = [i+self.d_square for i in range(self.n_corners_y)]
-        corner_coordinates = (Xg, Yg)
-        ########## Code ends here ##########
-        return corner_coordinates
+	Xg = np.array([x*self.d_square for y in range(self.n_corners_y) for x in range(self.n_corners_x)])
+        Yg = np.array([-1*y*self.d_square for y in range(self.n_corners_y) for x in range(self.n_corners_x)])
+	corner_coordinates = ([Xg]*self.n_chessboards, [Yg]*self.n_chessboards) 
+	########## Code ends here ##########
+      
+	return corner_coordinates
 
     def estimateHomography(self, u_meas, v_meas, X, Y):    # Zhang Appendix A
         '''
@@ -92,18 +93,17 @@ class CameraCalibrator:
         HINT: np.stack and/or np.hstack may come in handy here.
         '''
         ########## Code starts here ##########
-        P_W = np.array([X, Y, [1]*len(X)])
-        P_tilde = np.arange((2*len(X), 9))
-        
+	P_W = np.vstack([X, Y, np.ones(len(X))])
+        P_tilde = [0]*len(X)
         for i in range(len(X)):                     #Construct P_tilde using world coordinates and measured camera coordinates
-            P_tilde[i] = np.array([[-P_W[:,i],   np.zeros(3),  u_meas[i]*P_W[:,i]],
-                                   [np.zeros(3), -P_W[:,i],    v_meas[i]*P_W[:,i]]])
-                          
-        P_tilde = np.stack(P_tilde)                 #Stack all that into a coherent matrix 2n x 9
-        _, _, V = np.linalg.svd(P_tilde)            #Solve SVD problem. We only care about V
-        V = V.T                                     #Untranspose V
-        H = V[-1,:]                                 #Grab smallest singular value
-        H = [V[0:2], V[3:5], V[6:8]]                #H is 3x3
+            P_tilde[i] = np.array([np.r_[P_W[:,i].T, np.zeros(3), -1*u_meas[i]*P_W[:,i].T],
+                                   np.r_[np.zeros(3), P_W[:,i].T,    -1*v_meas[i]*P_W[:,i].T]])
+
+        P_tilde = np.vstack(P_tilde)                 #Stack all that into a coherent matrix 2n x 9
+	_, S, V = np.linalg.svd(P_tilde)            #Solve SVD problem. We only care about V
+	V = V.T                                     #Untranspose V
+        H = V[:,-1]                                 #Grab smallest singular value
+	H = np.vstack([H[0:3], H[3:6], H[6:9]])    #H is 3x3
         ########## Code ends here ##########
         return H
 
@@ -120,7 +120,27 @@ class CameraCalibrator:
         HINT: What is the size of V?
         '''
         ########## Code starts here ##########
-
+	# The desired v_{ij} can be specified with v[i-1][j-1] (-1 because python indexing starts at 0)
+	H_list = H
+	H = H_list[0].T # We want [h_{i,1},h_{i,2},h_{i,3}] to refer to the ith column vector of H
+	V_sub = [[np.array([H[i,0]*H[j,0],H[i,0]*H[j,1]+H[i,1]*H[j,0],H[i,1]*H[j,1],H[i,2]*H[j,0]+H[i,0]*H[j,2],H[i,2]*H[j,1]+H[i,1]*H[j,2],H[i,2]*H[j,2]]) for j in range(2)] for i in range(2)]
+	V = np.vstack([V_sub[0][1],(V_sub[0][0]-V_sub[1][1])]) # Initialize V with very original matrix variable name
+	for k in range(1,len(H_list)):
+		H = H_list[k].T
+		V_sub = [[np.array([H[i,0]*H[j,0],H[i,0]*H[j,1]+H[i,1]*H[j,0],H[i,1]*H[j,1],H[i,2]*H[j,0]+H[i,0]*H[j,2],H[i,2]*H[j,1]+H[i,1]*H[j,2],H[i,2]*H[j,2]]) for j in range(2)] for i in range(2)] 
+		V_temp = np.vstack([V_sub[0][1],(V_sub[0][0]-V_sub[1][1])])
+		V = np.vstack([V,V_temp])
+	#V = np.vstack([V,np.array([0,1,0,0,0,0])])
+	U,S,V_trans = np.linalg.svd(V)
+	b = V_trans[-1,:] # Obtain input vector corresponding to smallest singular value
+	B = np.array([[b[0],b[1],b[3]],[b[1],b[2],b[4]],[b[3],b[4],b[5]]]) # Grab 'dat B matrix boyzzz
+	v_0 = (B[0,1]*B[0,2]-B[0,0]*B[1,2])/(B[0,0]*B[1,1]-B[0,1]**2)
+	lamma = B[2,2]-(B[0,2]**2+v_0*(B[0,1]*B[0,2]-B[0,0]*B[1,2]))/B[0,0] # Lammas are pretty underappreciated so we fix that here
+	alpha = np.sqrt(lamma/B[0,0])
+	beta = np.sqrt(lamma*B[0,0]/(B[0,0]*B[1,1]-B[0,1]**2))
+	gamma = -1*B[0,1]*(alpha**2)*beta/lamma
+	u_0 = gamma*v_0/beta-B[0,2]*(alpha**2)/lamma # Done without difficulty
+	A = np.array([[alpha,gamma,u_0],[0,beta,v_0],[0,0,1]]) # The moment of truth
         ########## Code ends here ##########
         return A
 
@@ -134,7 +154,21 @@ class CameraCalibrator:
             t: the translation vector
         '''
         ########## Code starts here ##########
+	q_1 = np.linalg.solve(A,H[:,0]) #calcular columna de matriz aproximada de rotacion
+	llama = 1.0/np.linalg.norm(q_1,2) #estas son llamaradas, no animales
+	q_1 = q_1*llama #normalizar columna para hacer el vector unitario (matriz de rotacion rigida)
 
+	q_2 = np.linalg.solve(A,H[:,1])*llama #repetir proceso
+
+	q_3 = np.cross(q_1,q_2) #ultimo vector de rotacion
+
+	Q = np.c_[q_1,q_2,q_3] #matriz aproximada de rotacion
+
+	t = llama*np.linalg.solve(A,H[:,2]) #vector de traslacion
+
+	U,S,V_T = np.linalg.svd(Q) #la matriz ha sufrido una descompostura!
+
+	R = np.dot(U,V_T) #esta si es matriz de rotacion valida y no mamadas
         ########## Code ends here ##########
         return R, t
 
@@ -149,7 +183,11 @@ class CameraCalibrator:
 
         '''
         ########## Code starts here ##########
-
+	M_tilde = np.c_[X,Y,np.ones(len(X))].T
+        transform = np.c_[R[:,:2],t] # Only add the first two columns of rotation matrix
+	xy_interim = np.dot(transform,M_tilde)
+        x = xy_interim[0,:]/xy_interim[2,:]
+        y = xy_interim[1,:]/xy_interim[2,:]
         ########## Code ends here ##########
         return x, y
 
@@ -164,8 +202,13 @@ class CameraCalibrator:
             u, v: the coordinates in the ideal pixel image plane
         '''
         ########## Code starts here ##########
-
+	x, y = self.transformWorld2NormImageUndist(X, Y, Z, R, t)
+        xy_interim = np.vstack([x,y,np.ones(len(x))])
+        m_tilde = np.dot(A,xy_interim)
+        u = m_tilde[0,:]
+        v = m_tilde[1,:]
         ########## Code ends here ##########
+
         return u, v
 
     def undistortImages(self, A, k=np.zeros(2), n_disp_img=1e5, scale=0):
@@ -376,3 +419,4 @@ class CameraCalibrator:
             v_meas.append(self.h_pixels - chessboards[0][:, 0][:, 1])   # Flip Y-axis to traditional direction
 
         return u_meas, v_meas   # Lists of arrays (one per chessboard)
+
