@@ -129,11 +129,11 @@ def SplitLinesRecursive(theta, rho, startIdx, endIdx, params):
     alpha2, r2, i2 = SplitLinesRecursive(theta, rho, startIdx + s, endIdx, params)
     alpha = np.array([alpha1, alpha2])
     r = np.array([r1, r2])
-    idx = np.array([i1, i2])
+    idx = np.vstack([i1, i2])
     ########## Code ends here ##########
     return alpha, r, idx
 
-def FindSplit(theta, rho, alpha, r, params):
+def FindSplit(theta, rho, alpha, r, params): ##FAILED##
     '''
     This function takes in a line segment and outputs the best index at which to
     split the segment, or -1 if no split should be made.
@@ -161,7 +161,7 @@ def FindSplit(theta, rho, alpha, r, params):
     ########## Code ends here ##########
     return splitIdx
 
-def FitLine(theta, rho):
+def FitLine(theta, rho): ##PASSED##
     '''
     This function outputs a least squares best fit line to a segment of range
     data, expressed in polar form (alpha, r).
