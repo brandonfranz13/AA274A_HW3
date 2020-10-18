@@ -118,17 +118,17 @@ def SplitLinesRecursive(theta, rho, startIdx, endIdx, params):
     ########## Code starts here ##########
     alpha, r = FitLine(theta[startIdx:endIdx], rho[startIdx:endIdx])
     if (endIdx - startIdx) <= params['MIN_POINTS_PER_SEGMENT']:
-        return alpha, r, [startIdx, endIdx]
+        return alpha, r, np.array([startIdx, endIdx])
         
     s = FindSplit(theta[startIdx:endIdx], rho[startIdx:endIdx], alpha, r, params)
     
     if s < 0:
-        return alpha, r, [startIdx, endIdx]
+        return alpha, r, np.array([startIdx, endIdx])
     
     alpha1, r1, i1 = SplitLinesRecursive(theta, rho, startIdx, startIdx + s, params)
     alpha2, r2, i2 = SplitLinesRecursive(theta, rho, startIdx + s, endIdx, params)
     
-    alpha = [alpha1, alpha2], r = [r1, r2], idx = [i1, i2]
+    alpha = np.array([alpha1, alpha2]), r = np.array([r1, r2]), idx = np.array([i1, i2])
     ########## Code ends here ##########
     return alpha, r, idx
 
