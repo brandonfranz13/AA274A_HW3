@@ -152,9 +152,8 @@ def FindSplit(theta, rho, alpha, r, params):
         splitIdx: idx at which to split line (return -1 if it cannot be split).
     '''
     ########## Code starts here ##########
-    for splitIdx in range(len(theta)):
-        splitSegmentPoints = np.array([splitIdx, len(theta)-splitIdx])
-        if (rho[splitIdx]*np.cos(theta[splitIdx] - alpha) - r) > params['LINE_POINT_DIST_THRESHOLD'] and np.any(splitSegmentPoints < params['MIN_POINTS_PER_SEGMENT']):
+    for splitIdx in range(params['MIN_POINTS_PER_SEGMENT']-1, len(theta)-params['MIN_POINTS_PER_SEGMENT']):
+        if (rho[splitIdx]*np.cos(theta[splitIdx] - alpha) - r) > params['LINE_POINT_DIST_THRESHOLD']:
             return splitIdx
     splitIdx = -1
     
