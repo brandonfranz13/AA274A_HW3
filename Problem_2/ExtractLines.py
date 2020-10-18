@@ -184,7 +184,7 @@ def FitLine(theta, rho):
             x -= (1. / n) * rho[i] * rho[j] * np.cos(theta[i] + theta[j])
     
     alpha = 0.5 * np.arctan2(y, x) + np.pi / 2.
-    
+    r = 0
     for i in range(n):
         r += rho[i] * np.cos(theta[i] - alpha) / n
     ########## Code ends here ##########
