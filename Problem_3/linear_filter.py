@@ -16,8 +16,8 @@ def zeroPad(F, I):
         I_pad: An (m+row_pad, n+col_pad, c)-shaped ndarray containing the zero-padded or same-padded version of I
     """
     
-    row_pad = F.shape[0] // 2
-    col_pad = F.shape[1] // 2
+    row_pad = (F.shape[0] // 2) * 2
+    col_pad = (F.shape[1] // 2) * 2
     
     I_pad = np.zeros((I.shape[0]+row_pad, I.shape[1]+col_pad, I.shape[2]))
     for c in range(I.shape[2]):
