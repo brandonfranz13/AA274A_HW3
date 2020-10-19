@@ -214,7 +214,7 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
     ########## Code starts here ##########
     alphaOut = np.zeros(0)
     rOut = np.zeros(0)
-    pointIdxOut = np.zeros((0,2))
+    pointIdxOut = np.zeros((0,2), dtype=np.int)
     N_lines = len(pointIdx[:,0])
     for i in range(1, N_lines):
         startIdx = pointIdx[i-1, 0]
