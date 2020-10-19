@@ -127,8 +127,8 @@ def SplitLinesRecursive(theta, rho, startIdx, endIdx, params):
     
     alpha1, r1, i1 = SplitLinesRecursive(theta, rho, startIdx, startIdx + s, params)
     alpha2, r2, i2 = SplitLinesRecursive(theta, rho, startIdx + s, endIdx, params)
-    alpha = np.array([alpha1, alpha2])).flatten()
-    r = np.squeeze(np.array([r1, r2])).flatten()
+    alpha = np.array([alpha1, alpha2]).flatten()
+    r = np.array([r1, r2]).flatten()
     idx = np.vstack((i1, i2))
     ########## Code ends here ##########
     return alpha, r, idx
