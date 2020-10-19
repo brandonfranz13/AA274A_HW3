@@ -79,7 +79,10 @@ def main():
     
     ########## Code starts here ##########
     test_card_down8 = half_downscale(half_downscale(half_downscale(test_card)))
-    plt.imshow(test_card_down8, interpolation='none')
+    
+    fig, ax = plt.subplots()
+    im = ax.imshow(test_card_down8, interpolation='none')
+    plt.show()
     ########## Code ends here ##########
 
 
