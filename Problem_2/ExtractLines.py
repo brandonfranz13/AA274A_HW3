@@ -212,9 +212,9 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
           merge. If it can be split, do not merge.
     '''
     ########## Code starts here ##########
-    alphaOut = np.zeros(0)
-    rOut = np.zeros(0)
-    pointIdxOut = np.zeros((0,2))
+    alphaOut = np.zeros(1)
+    rOut = np.zeros(1)
+    pointIdxOut = np.zeros((1,2))
     N_lines = len(pointIdx[:,0])
     for i in range(1, N_lines):
         startIdx = pointIdx[i-1, 0]
