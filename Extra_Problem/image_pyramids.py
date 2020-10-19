@@ -40,7 +40,7 @@ def two_upscale(image):
         upscaled_image: A 2x-upscaled version of image.
     """
     ########## Code starts here ##########
-    return np.repeat(image, 2, axis=1)    
+    return np.repeat(np.repeat(image, 2, axis=0), 2, axis=1)    
     ########## Code ends here ##########
 
 
