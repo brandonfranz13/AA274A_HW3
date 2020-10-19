@@ -3,6 +3,8 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import Problem_4.template_matching as tm
+import image_pyramids as scale
 
 
 def template_match(template, image,
@@ -20,7 +22,17 @@ def template_match(template, image,
         matches: A list of (top-left y, top-left x, bounding box height, bounding box width) tuples for each match's bounding box.
     """
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    matches = np.zeros((0, 4))
+    pyramid = np.zeros(num_upscales+num_downscales+1)
+    pyramid[num_upscales] = image
+    for i in range(num_upscales, -1, -1):
+        pyramid[i] = cv2.pyrUp(pyramid[i-1])
+    
+    for i in range(num_upscales, pyramid.size-1):
+        pyramid[i+1] = cv2.pyrDown(pyramid[i])
+    
+    for img in pyramid:
+        matches = np.vstack(matches, tm.template_match(template, img, detection_threshold))
     ########## Code ends here ##########
 
 
