@@ -3,7 +3,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-import template_matching.py as tm
+from template_matching.py import template_match as tm
 
 
 def template_match(template, image,
@@ -31,7 +31,7 @@ def template_match(template, image,
         pyramid[i+1] = cv2.pyrDown(pyramid[i])
     
     for img in pyramid:
-        matches = np.vstack(matches, tm.template_match(template, img, detection_threshold))
+        matches = np.vstack(matches, tm(template, img, detection_threshold))
     
     return matches
     ########## Code ends here ##########
