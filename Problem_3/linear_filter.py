@@ -43,6 +43,7 @@ def corr(F, I):
                         t[elem] = I[i+u, j+v, w]
                         elem += 1
             G[i,j] = f.T * t
+            elem = 0
     return G
     ########## Code ends here ##########
 
