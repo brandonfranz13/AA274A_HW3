@@ -212,10 +212,23 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
           merge. If it can be split, do not merge.
     '''
     ########## Code starts here ##########
-    # N_lines = len(pointIdx[:,0])
-    # for i in range(N_lines):
-        # alphaOut, rOut = FitLine(theta[startIdx:endIdx], rho[startIdx:endIdx])
-    alphaOut, rOut, pointIdxOut = alpha, r, pointIdx 
+    alphaOut, rOut, pointIdxOut = []
+    N_lines = len(pointIdx[:,0])
+    for i in range(1, N_lines):
+        startIdx = pointIdx[i-1, 0]
+        endIdx = pointIdx[i, 1]
+        alphaNew, rNew = FitLine(theta[startIdx:endIdx], rho[startIdx:endIdx])
+        s = FindSplit(theta[startIdx:endIdx], rho[startIdx:endIdx], alphaNew, rNew, params)
+        
+        if s < 0: #accept merge
+            alphaOut[i-1] = alphaNew
+            rOut[i-1] = rNew
+            pointIdxOut[i-1] = [startIdx, endIdx]
+            
+        else: #reject merge
+            alphaOut[i-1:i] = [alpha[i-1], alpha[i]
+            rOut[i-1:i] = [r[i-1], r[i]]
+            pointIdxOut[i-1:i] = [pointIdx[i-1, :], pointIdx[i,:]
         
     ########## Code ends here ##########
     return alphaOut, rOut, pointIdxOut
