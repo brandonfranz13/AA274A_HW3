@@ -79,9 +79,27 @@ def main():
     
     ########## Code starts here ##########
     test_card_down8 = half_downscale(half_downscale(half_downscale(test_card)))
-    
+      
     fig, ax = plt.subplots()
     im = ax.imshow(test_card_down8, interpolation='none')
+    plt.show()
+    
+    test_card_blurDown8 = blur_half_downscale(blur_half_downscale(blur_half_downscale(test_card)))
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(test_card_blurDown8, interpolation='none')
+    plt.show()
+    
+    favicon_up8 = two_upscale(two_upscale(two_upscale(favicon)))
+    
+    fig, ax = plt.subplots()
+    im = ax.imshow(favicon_up8, interpolation='none')
+    plt.show()
+    
+    favicon_bilin_up8 = bilinterp_upscale(favicon, scale=8)
+    
+    fig, ax = plt.subplots()
+    im = ax.imshow(favicon_bilin_up8, interpolation='none')
     plt.show()
     ########## Code ends here ##########
 
