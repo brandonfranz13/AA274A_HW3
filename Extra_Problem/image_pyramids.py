@@ -68,7 +68,7 @@ def main():
     # OpenCV actually uses a BGR color channel layout,
     # Matplotlib uses an RGB color channel layout, so we're flipping the 
     # channels here so that plotting matches what we expect for colors.
-    test_card = cv2.imread('test_card.png')[..., ::-1].astype(float)
+    test_card = cv2.imread('../Problem_3/test_card.png')[..., ::-1].astype(float)
     favicon = cv2.imread('favicon-16x16.png')[..., ::-1].astype(float)
     test_card /= test_card.max()
     favicon /= favicon.max()
