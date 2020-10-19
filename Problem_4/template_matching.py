@@ -22,7 +22,7 @@ def template_match(template, image, threshold=0.999):
     outImg = cv2.matchTemplate(image, template, method=cv2.TM_CCOEFF_NORMED)
     topLeftPoints = np.where(outImg >= threshold)
     
-    return [(point[1], point[0], boundingBoxHeight, boundingBoxWidth) for point in topLeftPoints]
+    return [(point[1], point[0], boundingBoxHeight, boundingBoxWidth) for point in zip(*topLeftPoints[::-1])]
     ########## Code ends here ##########
 
 
