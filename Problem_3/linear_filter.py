@@ -40,7 +40,7 @@ def corr(F, I):
             for u in range(F.shape[0]):
                 for v in range(F.shape[1]):
                     for w in range(F.shape[2]):
-                        t[elem] = I[i:i+u, j:j+v, w]
+                        t[elem] = I[i+u, j+v, w]
                         elem += 1
             G[i,j] = f.T * t
     return G
