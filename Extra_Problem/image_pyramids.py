@@ -60,7 +60,7 @@ def bilinterp_upscale(image, scale):
     filt = f.T * f
 
     ########## Code starts here ##########
-    image_scaled = np.zeros((scale*m, scale*n, c), dtype=image.dtype))
+    image_scaled = np.zeros((scale*m, scale*n, c), dtype=image.dtype)
     image_scaled[::scale, ::scale, :] = image
     cv2.filter2D(image_scaled, -1, filt)
     ########## Code ends here ##########
