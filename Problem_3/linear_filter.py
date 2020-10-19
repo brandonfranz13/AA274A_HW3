@@ -98,7 +98,7 @@ def main():
                               [1, 4, 7, 4, 1]])
     filt4 = np.expand_dims(filt4, -1)
 
-    grayscale_filters = [filt1, filt2, filt3, filt4]
+    grayscale_filters = [filt2, filt1, filt3, filt4]
 
     color_filters = list()
     for filt in grayscale_filters:
