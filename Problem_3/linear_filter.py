@@ -7,16 +7,19 @@ import matplotlib.pyplot as plt
 import pdb
 
 
-def zeroPad(I):
+def zeroPad(F, I):
     """
     Input
         I: An (m, n, c)-shaped ndarray containing the m x n image (with c channels).
 
     Returns
-        I_pad: An (m+2, n+2, c)-shaped ndarray containing the zero-padded or same-padded version of I
+        I_pad: An (m+row_pad, n+col_pad, c)-shaped ndarray containing the zero-padded or same-padded version of I
     """
     
-    I_pad = np.zeros((I.shape[0]+2, I.shape[1]+2, I.shape[2]))
+    row_pad = F.shape[0] // 2
+    col_pad = F.shape[1] // 2
+    
+    I_pad = np.zeros((I.shape[0]+row_pad, I.shape[1]+col_pad, I.shape[2]))
     for c in range(I.shape[2]):
         I_pad[:,:,c] = np.pad(I[:,:,c], 1, 'constant')
         
@@ -35,7 +38,7 @@ def corr(F, I):
     G = np.zeros((I.shape[0], I.shape[1]))
     f = np.array(F).flatten()
     
-    I_pad = zeroPad(I)
+    I_pad = zeroPad(F, I)
         
     t = np.zeros(F.shape[0] * F.shape[1] * F.shape[2])
     elem = 0
