@@ -15,10 +15,12 @@ def zeroPad(I):
     Returns
         I_pad: An (m+2, n+2, c)-shaped ndarray containing the zero-padded or same-padded version of I
     """
+    
+    I_pad = np.zeros((I.shape[0]+2, I.shape[1]+2, I.shape[2]))
     for c in range(I.shape[2]):
-        I[:,:,c] = np.pad(I[:,:,c], 1, 'constant')
+        I_pad[:,:,c] = np.pad(I[:,:,c], 1, 'constant')
         
-    return I
+    return I_pad
 
 def corr(F, I):
     """
@@ -33,7 +35,7 @@ def corr(F, I):
     G = np.zeros((I.shape[0], I.shape[1]))
     f = np.array(F).flatten()
     
-    I = zeroPad(I)
+    I_pad = zeroPad(I)
         
     t = np.zeros(F.shape[0] * F.shape[1] * F.shape[2])
     elem = 0
@@ -43,7 +45,7 @@ def corr(F, I):
             for u in range(F.shape[0]):
                 for v in range(F.shape[1]):
                     for w in range(F.shape[2]):
-                        t[elem] = I[i+u, j+v, w]
+                        t[elem] = I_pad[i+u, j+v, w]
                         elem += 1
             G[i,j] = np.sum(f * t)
             elem = 0
