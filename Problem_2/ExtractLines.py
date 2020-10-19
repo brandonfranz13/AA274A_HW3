@@ -125,10 +125,11 @@ def SplitLinesRecursive(theta, rho, startIdx, endIdx, params):
     if s < 0:
         return alpha, r, np.array([startIdx, endIdx])
     
+    alpha1, alpha2, r1, r2, i1, i2 = []
     alpha1, r1, i1 = SplitLinesRecursive(theta, rho, startIdx, startIdx + s, params)
     alpha2, r2, i2 = SplitLinesRecursive(theta, rho, startIdx + s, endIdx, params)
-    alpha = np.concatenate([[alpha1], [alpha2]])
-    r = np.concatenate([[r1], [r2]])
+    alpha = np.concatenate([alpha1, alpha2])
+    r = np.concatenate([r1, r2])
     idx = np.vstack((i1, i2))
     ########## Code ends here ##########
     return alpha, r, idx
