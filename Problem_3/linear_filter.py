@@ -32,7 +32,7 @@ def corr(F, I):
     f = np.array(F).flatten()
     
     zeroPad(I)
-    t = np.zeros(I.shape[0] * I.shape[1] * I.shape[2])
+    t = np.zeros(F.shape[0] * F.shape[1] * F.shape[2])
     elem = 0
     for i in range(G.shape[0]): #ith row in G
         for j in range(G.shape[1]): #jth col in G
