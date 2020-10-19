@@ -17,7 +17,12 @@ def template_match(template, image, threshold=0.999):
         matches: A list of (top-left y, top-left x, bounding box height, bounding box width) tuples for each match's bounding box.
     """
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    boundingBoxHeight, boundingBoxWidth = template.shape[0], template.shape[1]
+    
+    outImg = cv.matchTemplate(image, template, 'cv.TM_CCOEFF_NORMED')
+    topLeftPoints = np.where(outImg >= threshold)
+    
+    return [(point[1], point[0], boundingBoxHeight, boundingBoxWidth) for point in topLeftPoints]
     ########## Code ends here ##########
 
 
