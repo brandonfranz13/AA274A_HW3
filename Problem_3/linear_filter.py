@@ -15,7 +15,8 @@ def zeroPad(I):
     Returns
         I_pad: An (m+2, n+2, c)-shaped ndarray containing the zero-padded or same-padded version of I
     """
-    np.pad(I, ((0,), (1,), (1,)), 'constant')
+    for c in range(len(I.shape[2])):
+        np.pad(I[c], 1, 'constant')
 
 def corr(F, I):
     """
@@ -27,15 +28,19 @@ def corr(F, I):
         G: An (m, n)-shaped ndarray containing the correlation of the filter with the image.
     """
     ########## Code starts here ##########
-    pdb.set_trace()
-    zeroPad(I)
+    G = np.zeros(I.shape[0], I.shape[1])
     f = np.array(F).flatten()
-    t = []
-    for i in range(I.shape[0]):
-        for j in range(I.shape[1]):
-            t[i+j] = np.array([[np.array(I[i:i+u, j:j+v, w]) for u in range(F.shape[0]) for v in range(F.shape[1])] for w in range(F.shape[2])]).flatten()
     
-    return np.array([[f.T * t[i+j] for j in range(I.shape[1])] for i in range(I.shape[0])])
+    zeroPad(I)
+    t = np.zeros(G.shape[0]*G.shape[1], I.shape(0) * I.shape(1))
+    elem = 0
+    for i in range(G.shape[0]): #ith row in G
+        for j in range(G.shape[1]): #jth col in G
+            # find t_ij for each element in G
+            t[elem, :] = np.array([[np.array(I[i:i+u, j:j+v, w]) for u in range(F.shape[0]) for v in range(F.shape[1])] for w in range(F.shape[2])]).flatten()
+            G(i,j) = f.T * t[elem]
+            elem += 1
+    return G
     ########## Code ends here ##########
 
 
