@@ -27,7 +27,7 @@ def blur_half_downscale(image):
         downscaled_image: A half-downscaled version of image.
     """
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    return half_downscale(cv2.GaussianBlur(image, ksize=(5,5), sigmaX=0.7))
     ########## Code ends here ##########
 
 
@@ -40,7 +40,7 @@ def two_upscale(image):
         upscaled_image: A 2x-upscaled version of image.
     """
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    return np.repeat(image, 2, axis=1)    
     ########## Code ends here ##########
 
 
