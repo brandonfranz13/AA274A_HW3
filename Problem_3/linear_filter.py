@@ -38,7 +38,7 @@ def corr(F, I):
         for j in range(G.shape[1]): #jth col in G
             # find t_ij for each element in G
             t[elem, :] = np.array([[np.array(I[i:i+u, j:j+v, w]) for u in range(F.shape[0]) for v in range(F.shape[1])] for w in range(F.shape[2])]).flatten()
-            G(i,j) = f.T * t[elem]
+            G[i,j] = f.T * t[elem]
             elem += 1
     return G
     ########## Code ends here ##########
