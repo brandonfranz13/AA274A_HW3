@@ -28,11 +28,11 @@ def corr(F, I):
         G: An (m, n)-shaped ndarray containing the correlation of the filter with the image.
     """
     ########## Code starts here ##########
-    G = np.zeros(I.shape[0], I.shape[1])
+    G = np.zeros((I.shape[0], I.shape[1]))
     f = np.array(F).flatten()
     
     zeroPad(I)
-    t = np.zeros(G.shape[0]*G.shape[1], I.shape(0) * I.shape(1))
+    t = np.zeros((G.shape[0]*G.shape[1], I.shape(0) * I.shape(1)))
     elem = 0
     for i in range(G.shape[0]): #ith row in G
         for j in range(G.shape[1]): #jth col in G
