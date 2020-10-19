@@ -19,7 +19,7 @@ def template_match(template, image, threshold=0.999):
     ########## Code starts here ##########
     boundingBoxHeight, boundingBoxWidth = template.shape[0], template.shape[1]
     
-    outImg = cv.matchTemplate(image, template, 'cv.TM_CCOEFF_NORMED')
+    outImg = cv2.matchTemplate(image, template, 'cv.TM_CCOEFF_NORMED')
     topLeftPoints = np.where(outImg >= threshold)
     
     return [(point[1], point[0], boundingBoxHeight, boundingBoxWidth) for point in topLeftPoints]
