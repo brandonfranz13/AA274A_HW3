@@ -3,7 +3,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-import template_matching as tm
+import template_matching.py as tm
 
 
 def template_match(template, image,
