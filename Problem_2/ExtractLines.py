@@ -225,12 +225,12 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
         if s < 0: #accept merge
             alphaOut[i-1] = alphaNew
             rOut[i-1] = rNew
-            pointIdxOut[i-1, :] = [startIdx, endIdx]
+            pointIdxOut[i-1] = [startIdx, endIdx]
             
         else: #reject merge
             alphaOut[i-1:i] = [alpha[i-1], alpha[i]]
             rOut[i-1:i] = [r[i-1], r[i]]
-            pointIdxOut[i-1:i, :] = [pointIdx[i-1, :], pointIdx[i,:]]
+            pointIdxOut[i-1:i] = [pointIdx[i-1, :], pointIdx[i,:]]
         
     ########## Code ends here ##########
     return alphaOut, rOut, pointIdxOut
