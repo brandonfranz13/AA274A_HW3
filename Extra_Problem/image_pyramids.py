@@ -78,7 +78,8 @@ def main():
     # matches exactly what's in the data array you pass in.
     
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    test_card_down8 = half_downscale(half_downscale(half_downscale(test_card)))
+    plt.imshow(test_card_down8, interpolation='none')
     ########## Code ends here ##########
 
 
