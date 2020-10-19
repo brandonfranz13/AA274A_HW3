@@ -22,7 +22,7 @@ def template_match(template, image,
     """
     ########## Code starts here ##########
     matches = np.zeros((0, 4))
-    pyramid = np.zeros(num_upscales+num_downscales+1)
+    pyramid = np.zeros((num_upscales+num_downscales+1, image.size))
     pyramid[num_upscales] = image
     for i in range(num_upscales, -1, -1):
         pyramid[i] = cv2.pyrUp(pyramid[i-1])
