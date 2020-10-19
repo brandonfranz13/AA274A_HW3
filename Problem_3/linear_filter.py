@@ -15,7 +15,7 @@ def zeroPad(I):
     Returns
         I_pad: An (m+2, n+2, c)-shaped ndarray containing the zero-padded or same-padded version of I
     """
-    for c in range(len(I.shape[2])):
+    for c in range(I.shape[2]):
         np.pad(I[c], 1, 'constant')
 
 def corr(F, I):
