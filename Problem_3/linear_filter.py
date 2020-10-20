@@ -21,7 +21,7 @@ def zeroPad(F, I):
     
     I_pad = np.zeros((I.shape[0]+row_pad, I.shape[1]+col_pad, I.shape[2]))
     for c in range(I.shape[2]):
-        I_pad[:,:,c] = np.pad(I[:,:,c], 1, 'constant')
+        I_pad[:,:,c] = np.pad(I_pad[:,:,c], 1, 'constant')
         
     return I_pad
 
