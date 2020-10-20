@@ -222,7 +222,8 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
     ########## Code starts here ##########
     alphaOut = np.zeros(0)
     rOut = np.zeros(0)
-    pointIdxOut = np.zeros((0,2), dtype=np.int)
+    pointIdxOut = np.zeros((0,4), dtype=np.int)
+    
     N_lines = len(pointIdx[:,0])
     for i in range(1, N_lines):
         startIdx = pointIdx[i-1, 0]
@@ -231,16 +232,20 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
         s = FindSplit(theta[startIdx:endIdx], rho[startIdx:endIdx], alphaNew, rNew, params)
         
         if s < 0: #accept merge
-            alphaOut = np.append(alphaOut, alphaNew)
-            rOut = np.append(rOut, rNew)
-            pointIdxOut = np.vstack((pointIdxOut, [startIdx, endIdx]))
+            alpha[i-1] = None
+            alpha[i] = alphaNew
+            r[i-1] = None
+            r[i] = rNew
+            pointIdx[i-1,:] = None
             pointIdx[i,:] = [startIdx, endIdx]
             
-        else: #reject merge
-            alphaOut = np.append(alphaOut, (alpha[i-1], alpha[i]))
-            rOut = np.append(rOut, (r[i-1], r[i]))
-            pointIdxOut = np.vstack((pointIdxOut, pointIdx[i-1], pointIdx[i]))
-        
+    for i in range(N_lines):
+        if alpha[i] != None:
+            alphaOut = np.append(alphaOut, alpha[i])
+        if r[i] != None:
+            rOut = np.append(rOut, r[i])
+        if pointIdx[i,0] != None:
+            pointIdxOut = np.vstack((pointIdxOut, pointIdx[i,:]))
     ########## Code ends here ##########
     return alphaOut, rOut, pointIdxOut
 
