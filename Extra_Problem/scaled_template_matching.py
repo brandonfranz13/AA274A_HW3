@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 
-def tm(template, image, threshold=0.999, scale):
+def tm(template, image, threshold=0.999, scale=1):
     """
     Input
         template: A (k, ell, c)-shaped ndarray containing the k x ell template (with c channels).
