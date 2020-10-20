@@ -19,7 +19,7 @@ def tm(template, image, threshold=0.999, scale=1):
     ########## Code starts here ##########
     boundingBoxHeight, boundingBoxWidth = template.shape[0], template.shape[1]
     
-    outImg = cv2.matchTemplate(image, template, method=cv2.TM_CCOEFF_NORMED)
+    outImg = cv2.matchTemplate(image, template, method=cv2.TM_CCORR_NORMED)
     topLeftPoints = np.where(outImg >= threshold)
     
     return [(point[1]//scale, point[0]//scale, boundingBoxHeight//scale, boundingBoxWidth//scale) for point in zip(*topLeftPoints[::-1])]
