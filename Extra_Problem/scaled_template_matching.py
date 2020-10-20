@@ -3,8 +3,26 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-from template_matching import template_match as tm
 
+
+
+def tm(template, image, threshold=0.999, scale):
+    """
+    Input
+        template: A (k, ell, c)-shaped ndarray containing the k x ell template (with c channels).
+        image: An (m, n, c)-shaped ndarray containing the m x n image (with c channels).
+        threshold: Minimum normalized cross-correlation value to be considered a match.
+
+    Returns
+        matches: A list of (top-left y, top-left x, bounding box height, bounding box width) tuples for each match's bounding box.
+    """
+    ########## Code starts here ##########
+    boundingBoxHeight, boundingBoxWidth = template.shape[0], template.shape[1]
+    
+    outImg = cv2.matchTemplate(image, template, method=cv2.TM_CCOEFF_NORMED)
+    topLeftPoints = np.where(outImg >= threshold)
+    
+    return [(point[1]//scale, point[0]//scale, boundingBoxHeight//scale, boundingBoxWidth//scale) for point in zip(*topLeftPoints[::-1])]
 
 def template_match(template, image,
                    num_upscales=2, num_downscales=3,
@@ -31,8 +49,9 @@ def template_match(template, image,
         pyramid[i+1] = cv2.pyrDown(pyramid[i])
     
     for img in pyramid:
-        match = tm(template, img, detection_threshold)
-        for point in match:
+        matchSet = tm(template, img, detection_threshold, scale)
+        scale = scale/2
+        for point in matchSet:
             matches.append(point)
     
     return matches
