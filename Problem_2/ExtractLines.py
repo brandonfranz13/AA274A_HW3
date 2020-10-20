@@ -153,11 +153,17 @@ def FindSplit(theta, rho, alpha, r, params): ##FAILED##
         splitIdx: idx at which to split line (return -1 if it cannot be split).
     '''
     ########## Code starts here ##########
-    print(theta, rho, alpha, r)
+    possibleSplits = np.zeros((0,2))
     for splitIdx in range(params['MIN_POINTS_PER_SEGMENT'], len(theta)-params['MIN_POINTS_PER_SEGMENT']):
-        if np.abs((rho[splitIdx]*np.cos(theta[splitIdx] - alpha) - r)) > params['LINE_POINT_DIST_THRESHOLD']:
-            return splitIdx+1
-    splitIdx = -1
+        distance = np.abs((rho[splitIdx]*np.cos(theta[splitIdx] - alpha) - r))
+        if distance >= params['LINE_POINT_DIST_THRESHOLD']:
+            possibleSplits = np.append(possibleSplits, (splitIdx, distance))
+    maxIdx = np.argmax(possibleSplits[:,1])
+    
+    if possibleSplits.size != 0
+        return possibleSplits[maxIdx[0], 0]
+    else:
+        splitIdx = -1
     
     ########## Code ends here ##########
     return splitIdx
