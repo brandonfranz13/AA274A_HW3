@@ -160,7 +160,7 @@ def FindSplit(theta, rho, alpha, r, params): ##FAILED##
             possibleSplits = np.append(possibleSplits, (splitIdx, distance))
     maxIdx = np.argmax(possibleSplits[:,1])
     
-    if possibleSplits.size != 0
+    if possibleSplits.size != 0:
         return possibleSplits[maxIdx[0], 0]
     else:
         splitIdx = -1
