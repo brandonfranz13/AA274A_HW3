@@ -155,7 +155,7 @@ def FindSplit(theta, rho, alpha, r, params): ##FAILED##
     ########## Code starts here ##########
     print(theta, rho, alpha, r)
     for splitIdx in range(params['MIN_POINTS_PER_SEGMENT'], len(theta)-params['MIN_POINTS_PER_SEGMENT']):
-        if (rho[splitIdx]*np.cos(theta[splitIdx] - alpha) - r) > params['LINE_POINT_DIST_THRESHOLD']:
+        if np.abs((rho[splitIdx]*np.cos(theta[splitIdx] - alpha) - r)) > params['LINE_POINT_DIST_THRESHOLD']:
             return splitIdx
     splitIdx = -1
     
