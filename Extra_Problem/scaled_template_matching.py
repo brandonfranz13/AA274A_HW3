@@ -39,6 +39,7 @@ def template_match(template, image,
         matches: A list of (top-left y, top-left x, bounding box height, bounding box width) tuples for each match's bounding box.
     """
     ########## Code starts here ##########
+    scale = 2 * num_upscales
     matches = []
     pyramid = np.zeros(num_upscales+num_downscales+1, dtype=object)
     pyramid[num_upscales] = image
