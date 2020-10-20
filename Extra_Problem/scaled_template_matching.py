@@ -51,7 +51,7 @@ def template_match(template, image,
     
     for img in pyramid:
         matchSet = tm(template, img, detection_threshold, scale)
-        scale = scale/2
+        scale = scale/2.
         for point in matchSet:
             matches.append(point)
     
