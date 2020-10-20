@@ -21,7 +21,7 @@ def template_match(template, image,
         matches: A list of (top-left y, top-left x, bounding box height, bounding box width) tuples for each match's bounding box.
     """
     ########## Code starts here ##########
-    matches = np.zeros((0, 4))
+    matches = []
     pyramid = np.zeros(num_upscales+num_downscales+1, dtype=object)
     pyramid[num_upscales] = image
     for i in range(num_upscales-1, -1, -1):
@@ -31,7 +31,7 @@ def template_match(template, image,
         pyramid[i+1] = cv2.pyrDown(pyramid[i])
     
     for img in pyramid:
-        matches = np.append(matches, tm(template, img, detection_threshold))
+        matches.append(tm(template, img, detection_threshold))
     
     return matches
     ########## Code ends here ##########

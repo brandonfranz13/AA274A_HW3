@@ -46,8 +46,8 @@ def main():
     image = cv2.imread('clutter.png').astype(np.float32)
     template = cv2.imread('valdo.png').astype(np.float32)
 
-    # matches = template_match(template, image)
-    # create_and_save_detection_image(image, matches)
+    matches = template_match(template, image)
+    create_and_save_detection_image(image, matches)
 
     template = cv2.imread('stop_signs/stop_template.jpg').astype(np.float32)
     for i in range(1, 6):
