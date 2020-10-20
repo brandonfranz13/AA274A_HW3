@@ -236,7 +236,7 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
             alpha[i] = alphaNew
             r[i-1] = None
             r[i] = rNew
-            pointIdx[i-1,:] = [None, None]
+            pointIdx[i-1,:] = [-1, -1]
             pointIdx[i,:] = [startIdx, endIdx]
             
     for i in range(N_lines):
@@ -244,7 +244,7 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
             alphaOut = np.append(alphaOut, alpha[i])
         if r[i] != None:
             rOut = np.append(rOut, r[i])
-        if pointIdx[i,0] != None:
+        if pointIdx[i,0] != -1:
             pointIdxOut = np.vstack((pointIdxOut, pointIdx[i,:]))
     ########## Code ends here ##########
     return alphaOut, rOut, pointIdxOut
