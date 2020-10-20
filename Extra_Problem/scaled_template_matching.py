@@ -31,7 +31,9 @@ def template_match(template, image,
         pyramid[i+1] = cv2.pyrDown(pyramid[i])
     
     for img in pyramid:
-        matches.append(tm(template, img, detection_threshold))
+        match = tm(template, img, detection_threshold)
+        if len(match) > 0:
+            matches.append(match)
     
     return matches
     ########## Code ends here ##########
