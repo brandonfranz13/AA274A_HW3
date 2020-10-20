@@ -232,17 +232,17 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
         s = FindSplit(theta[startIdx:endIdx], rho[startIdx:endIdx], alphaNew, rNew, params)
         
         if s < 0: #accept merge
-            alpha[i-1] = None
+            alpha[i-1] = 123456
             alpha[i] = alphaNew
-            r[i-1] = None
+            r[i-1] = 123456
             r[i] = rNew
             pointIdx[i-1,:] = [-1, -1]
             pointIdx[i,:] = [startIdx, endIdx]
             
     for i in range(N_lines):
-        if alpha[i] != None:
+        if alpha[i] != 123456:
             alphaOut = np.append(alphaOut, alpha[i])
-        if r[i] != None:
+        if r[i] != 123456:
             rOut = np.append(rOut, r[i])
         if pointIdx[i,0] != -1:
             pointIdxOut = np.vstack((pointIdxOut, pointIdx[i,:]))
