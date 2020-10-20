@@ -33,7 +33,7 @@ def template_match(template, image,
     for img in pyramid:
         match = tm(template, img, detection_threshold)
         if len(match) > 0:
-            matches.append(match)
+            matches = np.concatenate((matches, match))
     
     return matches
     ########## Code ends here ##########
