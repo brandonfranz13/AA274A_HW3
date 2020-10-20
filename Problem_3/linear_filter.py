@@ -66,7 +66,24 @@ def norm_cross_corr(F, I):
         G: An (m, n)-shaped ndarray containing the normalized cross-correlation of the filter with the image.
     """
     ########## Code starts here ##########
-    raise NotImplementedError("Implement me!")
+    G = np.zeros((I.shape[0], I.shape[1]))
+    f = np.array(F).flatten()
+    
+    I_pad = zeroPad(F, I)
+        
+    t = np.zeros(F.shape[0] * F.shape[1] * F.shape[2])
+    elem = 0
+    for i in range(G.shape[0]): #ith row in G
+        for j in range(G.shape[1]): #jth col in G
+            # find t_ij for each element in G
+            for u in range(F.shape[0]):
+                for v in range(F.shape[1]):
+                    for w in range(F.shape[2]):
+                        t[elem] = I_pad[i+u, j+v, w]
+                        elem += 1
+            G[i,j] = np.sum(f * t) / (np.linalg.norm(f) * np.linalg.norm(f))
+            elem = 0
+    return G
     ########## Code ends here ##########
 
 
