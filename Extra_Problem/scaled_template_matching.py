@@ -32,8 +32,8 @@ def template_match(template, image,
     
     for img in pyramid:
         match = tm(template, img, detection_threshold)
-        if len(match) > 0:
-            matches = np.concatenate((matches, match))
+        for point in match:
+            matches.append(point)
     
     return matches
     ########## Code ends here ##########
