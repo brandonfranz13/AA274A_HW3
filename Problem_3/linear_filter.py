@@ -81,7 +81,7 @@ def norm_cross_corr(F, I):
                     for w in range(F.shape[2]):
                         t[elem] = I_pad[i+u, j+v, w]
                         elem += 1
-            G[i,j] = np.sum(f * t) / (np.linalg.norm(f) * np.linalg.norm(f))
+            G[i,j] = np.sum(f * t) / (np.linalg.norm(f) * np.linalg.norm(t))
             elem = 0
     return G
     ########## Code ends here ##########
