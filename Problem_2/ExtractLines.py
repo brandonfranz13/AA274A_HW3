@@ -158,11 +158,11 @@ def FindSplit(theta, rho, alpha, r, params): ##FAILED##
     for splitIdx in range(params['MIN_POINTS_PER_SEGMENT'], len(theta)-params['MIN_POINTS_PER_SEGMENT']):
         distance = np.abs((rho[splitIdx]*np.cos(theta[splitIdx] - alpha) - r))
         if distance >= params['LINE_POINT_DIST_THRESHOLD']:
-            possibleSplits = np.append(possibleSplits, (splitIdx, distance))
-    maxIdx = np.argmax(possibleSplits[:][1])
+            possibleSplits = np.append(possibleSplits, [splitIdx, distance])
+    maxIdx = np.argmax(possibleSplits[:,1])
     
     if possibleSplits.size != 0:
-        return possibleSplits[maxIdx[0]][0]
+        return possibleSplits[maxIdx[0], 0]
     else:
         splitIdx = -1
     
