@@ -31,7 +31,7 @@ def template_match(template, image,
         pyramid[i+1] = cv2.pyrDown(pyramid[i])
     
     for img in pyramid:
-        matches = np.vstack((matches, tm(template, img.astype(np.uint8), detection_threshold)))
+        matches = np.append((matches, tm(template, img.astype(np.uint8), detection_threshold)))
     
     return matches
     ########## Code ends here ##########
