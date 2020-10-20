@@ -236,7 +236,7 @@ def MergeColinearNeigbors(theta, rho, alpha, r, pointIdx, params):
             alpha[i] = alphaNew
             r[i-1] = None
             r[i] = rNew
-            pointIdx[i-1,:] = None
+            pointIdx[i-1,:] = [None, None]
             pointIdx[i,:] = [startIdx, endIdx]
             
     for i in range(N_lines):
@@ -278,8 +278,8 @@ def main():
     #       y_r is the robot's y position
     #       N_pts is the number of beams (e.g. 180 -> beams are 2deg apart)
 
-    filename = 'rangeData_5_5_180.csv'
-    # filename = 'rangeData_4_9_360.csv'
+    # filename = 'rangeData_5_5_180.csv'
+    filename = 'rangeData_4_9_360.csv'
     # filename = 'rangeData_7_2_90.csv'
 
     # Import Range Data
